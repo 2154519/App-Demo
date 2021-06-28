@@ -30,7 +30,7 @@ public class AppDemoScreen2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_demo_screen2);
 
-        otp = getIntent().getStringExtra("otpcode");
+        otp = getIntent().getStringExtra("otp");
 
         number1 =findViewById(R.id.d1);
         number2 =findViewById(R.id.d2);
@@ -160,6 +160,7 @@ public class AppDemoScreen2 extends AppCompatActivity {
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Intent intent = new Intent(AppDemoScreen2.this, AppDemoScreen3.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
                 }

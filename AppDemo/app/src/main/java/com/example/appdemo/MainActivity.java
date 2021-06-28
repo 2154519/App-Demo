@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onCodeSent(@NonNull @NotNull String s, @NonNull @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 progressBar.setVisibility(View.GONE);
-                                Intent intent = new Intent(MainActivity.this, AppDemoScreen2.class);
+                                Intent intent = new Intent(MainActivity.this, AppDemoScreen4.class);
                                 intent.putExtra("otpcode",s);
                                 intent.putExtra("number",enternumber.getText().toString());
                                 startActivity(intent);
