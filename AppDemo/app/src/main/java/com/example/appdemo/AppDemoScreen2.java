@@ -1,5 +1,6 @@
 package com.example.appdemo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,14 +11,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import org.jetbrains.annotations.NotNull;
+
 public class AppDemoScreen2 extends AppCompatActivity {
 
     private EditText number1, number2,number3,number4,number5;
+    String num, otp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_demo_screen2);
+
+        otp = getIntent().getStringExtra("otpcode");
 
         number1 =findViewById(R.id.d1);
         number2 =findViewById(R.id.d2);
@@ -134,10 +147,24 @@ public class AppDemoScreen2 extends AppCompatActivity {
 
     public void doPay(View view) {
 
-        /*if(!enternumber.getText().toString().trim().isEmpty()){
+        String enteredcode = number1.getText().toString()+
+                number2.getText().toString()+
+                number3.getText().toString()+
+                number4.getText().toString()+
+                number5.getText().toString();
 
-        }*/
-        Intent intent = new Intent(this, AppDemoScreen3.class);
-        startActivity(intent);
+        if(otp!=null){
+            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(otp,enteredcode);
+            FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Intent intent = new Intent(AppDemoScreen2.this, AppDemoScreen3.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
+
     }
 }
